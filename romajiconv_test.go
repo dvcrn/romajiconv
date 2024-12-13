@@ -116,6 +116,22 @@ func TestExampleConvertFullWidthToHalf(t *testing.T) {
 			input:    "UBER *EATS HELP.UBER.COM",
 			expected: "UBER *EATS HELP.UBER.COM", // Already half-width
 		},
+		{
+			input:    "テスト（ＴＥＳＴ）",
+			expected: "テスト(TEST)",
+		},
+		{
+			input:    "［テスト］＊（ＴＥＳＴ）",
+			expected: "[テスト]*(TEST)",
+		},
+		{
+			input:    "スーパー［ＳＵＰＥＲ］（１２３）",
+			expected: "スーパー[SUPER](123)",
+		},
+		{
+			input:    "（株）テスト［ＴＥＳＴ］",
+			expected: "(株)テスト[TEST]",
+		},
 	}
 
 	for _, ex := range examples {

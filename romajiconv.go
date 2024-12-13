@@ -25,6 +25,15 @@ func ConvertFullWidthToHalf(input string) string {
 		// Full-width asterisk
 		case r == '＊':
 			r = '*'
+		// Full-width brackets
+		case r == '（':
+			r = '('
+		case r == '）':
+			r = ')'
+		case r == '［':
+			r = '['
+		case r == '］':
+			r = ']'
 		}
 		result = append(result, r)
 	}
