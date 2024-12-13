@@ -4,12 +4,41 @@ A Go package for converting full-width romaji characters to half-width while pre
 
 ## Features
 
-- Converts full-width Latin letters (Ａ-Ｚ, ａ-ｚ) to half-width
-- Converts full-width numbers (０-９) to half-width
-- Converts full-width spaces and special characters (／, ＊) to half-width
-- Converts full-length dash (－) to half-width (-) when surrounded by romaji
+Converts the following full-width characters to their half-width equivalents:
+
+### Letters and Numbers
+- Latin letters (Ａ-Ｚ, ａ-ｚ)
+- Numbers (０-９)
+
+### Punctuation and Basic Symbols
+- Space (　)
+- Comma, Period, etc (，．：；！？)
+- Quotes and Related (＂＇｀＾～￣＿)
+- Special Characters (＆＠＃％＋＊＝)
+- Comparison Operators (＜＞)
+
+### Brackets and Parentheses
+- Parentheses (（）)
+- Square Brackets (［］)
+- Curly Braces (｛｝)
+- Corner Brackets (｟｠)
+
+### Lines and Slashes
+- Vertical Bars (｜￤)
+- Forward and Back Slashes (／＼)
+- Not Sign (￢)
+
+### Currency Symbols
+- Dollar (＄)
+- Pound (￡)
+- Cent (￠)
+- Won (￦)
+- Yen (￥)
+
+### Special Rules
+- Converts full-length dash (－) to half-width (-) only when surrounded by romaji
 - Preserves full-length dash when used with kanji or kana
-- Preserves kanji, hiragana, katakana, and other characters
+- Preserves all other characters (kanji, hiragana, katakana, etc.)
 
 ## Installation
 
@@ -28,21 +57,17 @@ import (
 )
 
 func main() {
+    // Basic conversion
     input := "Ｈｅｌｌｏ　世界！"
     result := romajiconv.ConvertFullWidthToHalf(input)
-    fmt.Println(result) // Output: Hello 世界！
+    fmt.Println(result) // Output: Hello 世界!
 
-    // Numbers
-    input = "１２３４５"
+    // Numbers and symbols
+    input = "＄１２３．４５"
     result = romajiconv.ConvertFullWidthToHalf(input)
-    fmt.Println(result) // Output: 12345
+    fmt.Println(result) // Output: $123.45
 
-    // Mixed content
-    input = "ＡＢＣ　あいうえお　１２３"
-    result = romajiconv.ConvertFullWidthToHalf(input)
-    fmt.Println(result) // Output: ABC あいうえお 123
-
-    // Full-length dash
+    // Mixed content with dash
     input = "ＡＢＣ－ＤＥＦ"
     result = romajiconv.ConvertFullWidthToHalf(input)
     fmt.Println(result) // Output: ABC-DEF
@@ -51,4 +76,9 @@ func main() {
     input = "東京－大阪"
     result = romajiconv.ConvertFullWidthToHalf(input)
     fmt.Println(result) // Output: 東京－大阪
+
+    // Complex mixed content
+    input = "［テスト］＊＄１２３．４５＠ｔｅｓｔ．ｃｏｍ"
+    result = romajiconv.ConvertFullWidthToHalf(input)
+    fmt.Println(result) // Output: [テスト]*$123.45@test.com
 }

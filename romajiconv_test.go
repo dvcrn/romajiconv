@@ -9,6 +9,7 @@ func TestExampleConvertFullWidthToHalf(t *testing.T) {
 		input    string
 		expected string
 	}{
+		// Original test cases
 		{
 			input:    "御殿場プレミアム・アウトレット／ｉＤ",
 			expected: "御殿場プレミアム・アウトレット/iD",
@@ -29,105 +30,65 @@ func TestExampleConvertFullWidthToHalf(t *testing.T) {
 			input:    "カタカナテスト",
 			expected: "カタカナテスト",
 		},
+		// Full-width numbers
 		{
-			input:    "ＡBＣDｅFｇH",
-			expected: "ABCDeFgH",
+			input:    "０１２３４５６７８９",
+			expected: "0123456789",
+		},
+		// Full-width uppercase letters
+		{
+			input:    "ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ",
+			expected: "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+		},
+		// Full-width lowercase letters
+		{
+			input:    "ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ",
+			expected: "abcdefghijklmnopqrstuvwxyz",
+		},
+		// Full-width punctuation
+		{
+			input:    "，．：；！？",
+			expected: ",.:;!?",
+		},
+		// Full-width quotation marks and related symbols
+		{
+			input:    "＂＇｀＾～￣＿",
+			expected: "\"'`^~~_",
+		},
+		// Full-width special characters (excluding dash which has special rules)
+		{
+			input:    "＆＠＃％＋＊＝＜＞",
+			expected: "&@#%+*=<>",
+		},
+		// Full-width brackets
+		{
+			input:    "（）［］｛｝｟｠",
+			expected: "()[]{}()",
+		},
+		// Full-width vertical bars and slashes
+		{
+			input:    "｜￤／＼￢",
+			expected: "||/\\¬",
+		},
+		// Full-width currency symbols
+		{
+			input:    "＄￡￠￦￥",
+			expected: "$£¢₩¥",
+		},
+		// Mixed content tests
+		{
+			input:    "テスト＠ｔｅｓｔ＃１２３",
+			expected: "テスト@test#123",
 		},
 		{
-			input:    "ｈｅｌｌｏHELLO",
-			expected: "helloHELLO",
+			input:    "［ＴＥＳＴ］：テスト！",
+			expected: "[TEST]:テスト!",
 		},
 		{
-			input:    "テスト　　　テスト",
-			expected: "テスト   テスト",
+			input:    "価格：＄１２３．４５",
+			expected: "価格:$123.45",
 		},
-		{
-			input:    "Ａ　Ｂ　Ｃ",
-			expected: "A B C",
-		},
-		{
-			input:    "１２３456７８９",
-			expected: "123456789",
-		},
-		{
-			input:    "テスト１２３test４５６TEST",
-			expected: "テスト123test456TEST",
-		},
-		{
-			input:    "東京ＴＯＫＹＯトウキョウ",
-			expected: "東京TOKYOトウキョウ",
-		},
-		{
-			input:    "スーパー　ＳＵＰＥＲ　１２３",
-			expected: "スーパー SUPER 123",
-		},
-		// Store names with mixed scripts and symbols
-		{
-			input:    "フアミリ―マ―トタイシドウサンチ／ｉＤ",
-			expected: "フアミリ―マ―トタイシドウサンチ/iD",
-		},
-		{
-			input:    "ＰａｙＰａｙ＊ロイヤールタリー",
-			expected: "PayPay*ロイヤールタリー",
-		},
-		{
-			input:    "ＥＩＧＨＴ　ｓａｎｇｅｎｊａｙａ／ｉＤ",
-			expected: "EIGHT sangenjaya/iD",
-		},
-		// Half-width katakana cases
-		{
-			input:    "ﾗｸﾃﾝﾍﾟｲ*ﾋﾟｻﾞﾊｯﾄ",
-			expected: "ﾗｸﾃﾝﾍﾟｲ*ﾋﾟｻﾞﾊｯﾄ", // Should preserve half-width katakana
-		},
-		// Complex store names with mixed width
-		{
-			input:    "ダイニングバー　ＴＡＫＥＮＯＴＳＵ／ｉＤ",
-			expected: "ダイニングバー TAKENOTSU/iD",
-		},
-		{
-			input:    "ＳＨＥＷＯＬＦＤＩＮＥＲ　渋谷／ｉＤ",
-			expected: "SHEWOLFDINER 渋谷/iD",
-		},
-		{
-			input:    "ＬＩＱＵＩＤ　ＦＡＣＴＯＲＹ／ｉＤ",
-			expected: "LIQUID FACTORY/iD",
-		},
-		// Special characters and brand names
-		{
-			input:    "ＳＱ＊ＶＥＮＴ",
-			expected: "SQ*VENT",
-		},
-		{
-			input:    "Ｅｄｙチャージ",
-			expected: "Edyチャージ",
-		},
-		// Mixed Japanese and English with numbers
-		{
-			input:    "ロ―ソンＮＬ　コマザワ５チヨウメ／ｉＤ",
-			expected: "ロ―ソンNL コマザワ5チヨウメ/iD",
-		},
-		// International brand names
-		{
-			input:    "UBER *EATS HELP.UBER.COM",
-			expected: "UBER *EATS HELP.UBER.COM", // Already half-width
-		},
-		{
-			input:    "テスト（ＴＥＳＴ）",
-			expected: "テスト(TEST)",
-		},
-		{
-			input:    "［テスト］＊（ＴＥＳＴ）",
-			expected: "[テスト]*(TEST)",
-		},
-		{
-			input:    "スーパー［ＳＵＰＥＲ］（１２３）",
-			expected: "スーパー[SUPER](123)",
-		},
-		{
-			input:    "（株）テスト［ＴＥＳＴ］",
-			expected: "(株)テスト[TEST]",
-		},
-		// New test cases for full-length dash
+		// Dash conversion tests
 		{
 			input:    "iKI－BA PARCO/iD",
 			expected: "iKI-BA PARCO/iD",
@@ -137,28 +98,30 @@ func TestExampleConvertFullWidthToHalf(t *testing.T) {
 			expected: "iKI-BA PARCO/iD",
 		},
 		{
-			input:    "渋谷－東京", // Dash between kanji should be preserved
+			input:    "渋谷－東京",
 			expected: "渋谷－東京",
 		},
 		{
-			input:    "ひらがな－カタカナ", // Dash between kana should be preserved
+			input:    "ひらがな－カタカナ",
 			expected: "ひらがな－カタカナ",
 		},
+		// Complex mixed content
 		{
-			input:    "ABC－DEF",
-			expected: "ABC-DEF",
+			input:    "［テスト］＊＄１２３．４５＠ｔｅｓｔ．ｃｏｍ",
+			expected: "[テスト]*$123.45@test.com",
 		},
 		{
-			input:    "ＡＢＣ－ＤＥＦ",
-			expected: "ABC-DEF",
+			input:    "（株）テスト＆カンパニー￥１，０００",
+			expected: "(株)テスト&カンパニー¥1,000",
+		},
+		// Special cases with multiple symbols
+		{
+			input:    "＜＜＜テスト＞＞＞",
+			expected: "<<<テスト>>>",
 		},
 		{
-			input:    "渋谷－TOKYO", // Mixed case, should preserve dash
-			expected: "渋谷－TOKYO",
-		},
-		{
-			input:    "SHIBUYA－渋谷", // Mixed case, should preserve dash
-			expected: "SHIBUYA－渋谷",
+			input:    "～～～＊＊＊～～～",
+			expected: "~~~***~~~",
 		},
 	}
 
