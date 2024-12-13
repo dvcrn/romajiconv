@@ -74,13 +74,11 @@ func TestExampleConvertFullWidthToHalf(t *testing.T) {
 			input:    "ＥＩＧＨＴ　ｓａｎｇｅｎｊａｙａ／ｉＤ",
 			expected: "EIGHT sangenjaya/iD",
 		},
-
 		// Half-width katakana cases
 		{
 			input:    "ﾗｸﾃﾝﾍﾟｲ*ﾋﾟｻﾞﾊｯﾄ",
 			expected: "ﾗｸﾃﾝﾍﾟｲ*ﾋﾟｻﾞﾊｯﾄ", // Should preserve half-width katakana
 		},
-
 		// Complex store names with mixed width
 		{
 			input:    "ダイニングバー　ＴＡＫＥＮＯＴＳＵ／ｉＤ",
@@ -94,7 +92,6 @@ func TestExampleConvertFullWidthToHalf(t *testing.T) {
 			input:    "ＬＩＱＵＩＤ　ＦＡＣＴＯＲＹ／ｉＤ",
 			expected: "LIQUID FACTORY/iD",
 		},
-
 		// Special characters and brand names
 		{
 			input:    "ＳＱ＊ＶＥＮＴ",
@@ -104,13 +101,11 @@ func TestExampleConvertFullWidthToHalf(t *testing.T) {
 			input:    "Ｅｄｙチャージ",
 			expected: "Edyチャージ",
 		},
-
 		// Mixed Japanese and English with numbers
 		{
 			input:    "ロ―ソンＮＬ　コマザワ５チヨウメ／ｉＤ",
 			expected: "ロ―ソンNL コマザワ5チヨウメ/iD",
 		},
-
 		// International brand names
 		{
 			input:    "UBER *EATS HELP.UBER.COM",
@@ -131,6 +126,39 @@ func TestExampleConvertFullWidthToHalf(t *testing.T) {
 		{
 			input:    "（株）テスト［ＴＥＳＴ］",
 			expected: "(株)テスト[TEST]",
+		},
+		// New test cases for full-length dash
+		{
+			input:    "iKI－BA PARCO/iD",
+			expected: "iKI-BA PARCO/iD",
+		},
+		{
+			input:    "ｉＫＩ－ＢＡ　ＰＡＲＣＯ／ｉＤ",
+			expected: "iKI-BA PARCO/iD",
+		},
+		{
+			input:    "渋谷－東京", // Dash between kanji should be preserved
+			expected: "渋谷－東京",
+		},
+		{
+			input:    "ひらがな－カタカナ", // Dash between kana should be preserved
+			expected: "ひらがな－カタカナ",
+		},
+		{
+			input:    "ABC－DEF",
+			expected: "ABC-DEF",
+		},
+		{
+			input:    "ＡＢＣ－ＤＥＦ",
+			expected: "ABC-DEF",
+		},
+		{
+			input:    "渋谷－TOKYO", // Mixed case, should preserve dash
+			expected: "渋谷－TOKYO",
+		},
+		{
+			input:    "SHIBUYA－渋谷", // Mixed case, should preserve dash
+			expected: "SHIBUYA－渋谷",
 		},
 	}
 
